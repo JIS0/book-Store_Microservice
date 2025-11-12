@@ -1,5 +1,6 @@
 package com.jisojoy.bookStore.catalog.web;
 
+import com.jisojoy.bookStore.catalog.domain.PagedResult;
 import com.jisojoy.bookStore.catalog.domain.ProductEntity;
 import com.jisojoy.bookStore.catalog.domain.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductEntity> getAllProducts(@RequestParam(name = "page" , defaultValue="1") int pages){
-        return productService.getAll();
+    public PagedResult<ProductEntity> getAllProducts(@RequestParam(name = "page" , defaultValue="1") int pages){
+        return productService.getAll(pages);
     }
 }

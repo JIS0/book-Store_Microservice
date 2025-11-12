@@ -1,6 +1,9 @@
 package com.jisojoy.bookStore.catalog.domain;
 
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,7 +16,21 @@ public class ProductService {
     public ProductService(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
-    public List<ProductEntity> getAll() {
-        return productRepo.findAll();
+    public PagedResult<ProductEntity> getAll(int pages) {
+        Sort sort= Sort.by("name").ascending();
+        Pageable pageable = PageRequest.of(pages,10,sort);
+         var productsPage= productRepo.findAll(pageable);
+
+        return new PagedResult<>(
+                productsPage.getContent(),
+                productsPage.getTotalElements(),
+                productsPage.getNumber() + 1,
+                productsPage.getTotalPages(),
+                productsPage.isFirst(),
+                productsPage.isLast(),
+                productsPage.hasNext(),
+                productsPage.hasPrevious()
+
+        );
     }
 }
