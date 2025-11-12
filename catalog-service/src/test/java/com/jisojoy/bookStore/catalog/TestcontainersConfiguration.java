@@ -1,4 +1,4 @@
-package com.jisojoy.bookStore.catalog_service;
+package com.jisojoy.bookStore.catalog;
 
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

@@ -1,4 +1,4 @@
-package com.jisojoy.bookStore.catalog_service;
+package com.jisojoy.bookStore.catalog;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
