@@ -16,10 +16,10 @@ public class ProductService {
     public ProductService(ProductRepo productRepo) {
         this.productRepo = productRepo;
     }
-    public PagedResult<ProductEntity> getAll(int pages) {
+    public PagedResult<Product> getAll(int pages) {
         Sort sort= Sort.by("name").ascending();
         Pageable pageable = PageRequest.of(pages,10,sort);
-         var productsPage= productRepo.findAll(pageable);
+         var productsPage= productRepo.findAll(pageable).map(ProductMapper::toProduct);
 
         return new PagedResult<>(
                 productsPage.getContent(),
