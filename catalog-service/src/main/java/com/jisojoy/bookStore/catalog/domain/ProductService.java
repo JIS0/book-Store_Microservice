@@ -33,4 +33,8 @@ public class ProductService {
 
         );
     }
+
+    public Product getByCode(String code) {
+        return null;
+    }
 }

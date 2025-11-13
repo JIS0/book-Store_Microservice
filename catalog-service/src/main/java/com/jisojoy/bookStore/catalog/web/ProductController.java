@@ -3,10 +3,7 @@ package com.jisojoy.bookStore.catalog.web;
 import com.jisojoy.bookStore.catalog.domain.PagedResult;
 import com.jisojoy.bookStore.catalog.domain.Product;
 import com.jisojoy.bookStore.catalog.domain.ProductService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +21,11 @@ public class ProductController {
     @GetMapping
     public PagedResult<Product> getAllProducts(@RequestParam(name = "page" , defaultValue="0") int pages){
         return productService.getAll(pages);
+    }
+
+    @GetMapping
+    @RequestMapping("/{code}")
+    public Product getProductByCode(@PathVariable String code){
+        return productService.getByCode(code);
     }
 }
