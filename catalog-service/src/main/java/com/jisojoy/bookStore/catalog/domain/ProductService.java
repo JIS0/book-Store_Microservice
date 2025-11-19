@@ -1,6 +1,9 @@
 package com.jisojoy.bookStore.catalog.domain;
 
+import com.jisojoy.bookStore.catalog.config.ApplicationConfig;
+import com.jisojoy.bookStore.catalog.web.ProductNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -12,14 +15,18 @@ import java.util.List;
 @Transactional
 public class ProductService {
 
-    ProductRepo productRepo;
-    public ProductService(ProductRepo productRepo) {
+    private final ProductRepo productRepo;
+    private final ApplicationConfig appConfig;
+    public ProductService(ProductRepo productRepo, ApplicationConfig appConfig) {
         this.productRepo = productRepo;
+        this.appConfig=appConfig;
     }
     public PagedResult<Product> getAll(int pages) {
+
         Sort sort= Sort.by("name").ascending();
-        Pageable pageable = PageRequest.of(pages,10,sort);
-         var productsPage= productRepo.findAll(pageable).map(ProductMapper::toProduct);
+        Pageable pageable = PageRequest.of(pages,appConfig.pageSize(),sort);
+
+        Page<Product> productsPage= productRepo.findAll(pageable).map(ProductMapper::toProduct);
 
         return new PagedResult<>(
                 productsPage.getContent(),
@@ -35,6 +42,6 @@ public class ProductService {
     }
 
     public Product getByCode(String code) {
-        return null;
+        return productRepo.findByCode(code).map(ProductMapper::toProduct).orElseThrow(()->ProductNotFoundException.errorBycode(code));
     }
 }

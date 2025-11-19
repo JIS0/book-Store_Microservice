@@ -23,8 +23,7 @@ public class ProductController {
         return productService.getAll(pages);
     }
 
-    @GetMapping
-    @RequestMapping("/{code}")
+    @GetMapping("/{code}")
     public Product getProductByCode(@PathVariable String code){
         return productService.getByCode(code);
     }
